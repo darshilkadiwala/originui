@@ -5,13 +5,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "pnpm format:write && next build",
+    "build": "next build",
     "registry:build": "shadcn build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "format": "prettier --write --list-different --cache --ignore-path .prettierignore ."
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -95,18 +94,14 @@
       "^@/styles/(.*)$",
       "^@/app/(.*)$",
       "",
-      "^[./]"
+      "^[./]",
+      "^[../]"
     ],
-    "importOrderSeparation": false,
-    "importOrderSortSpecifiers": true,
-    "importOrderBuiltinModulesToTop": true,
     "importOrderParserPlugins": [
       "typescript",
       "jsx",
       "decorators-legacy"
     ],
-    "importOrderMergeDuplicateImports": true,
-    "importOrderCombineTypeAndValueImports": true,
     "plugins": [
       "@ianvs/prettier-plugin-sort-imports",
       "prettier-plugin-tailwindcss"

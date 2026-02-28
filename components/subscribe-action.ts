@@ -1,5 +1,3 @@
-"use server"
-
 import { z } from "zod"
 
 type EmailOctopusError = {
@@ -15,10 +13,10 @@ const subscribeSchema = z.object({
 type SubscribeResult = { success: true } | { success: false; error: string }
 
 export async function subscribe(email: string): Promise<SubscribeResult> {
-  if (
-    !process.env.EMAIL_OCTOPUS_API_KEY ||
-    !process.env.EMAIL_OCTOPUS_LIST_ID
-  ) {
+  const apiKey = process.env.NEXT_PUBLIC_EMAIL_OCTOPUS_API_KEY
+  const listId = process.env.NEXT_PUBLIC_EMAIL_OCTOPUS_LIST_ID
+
+  if (!apiKey || !listId) {
     throw new Error("Missing required environment variables")
   }
 
@@ -32,12 +30,12 @@ export async function subscribe(email: string): Promise<SubscribeResult> {
 
   try {
     const response = await fetch(
-      `https://api.emailoctopus.com/lists/${process.env.EMAIL_OCTOPUS_LIST_ID}/contacts`,
+      `https://api.emailoctopus.com/lists/${listId}/contacts`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.EMAIL_OCTOPUS_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           email_address: result.data.email,
@@ -49,14 +47,6 @@ export async function subscribe(email: string): Promise<SubscribeResult> {
     )
 
     const data = (await response.json()) as EmailOctopusError
-
-    if (!response.ok && process.env.NODE_ENV === "development") {
-      console.error("API Error:", {
-        status: response.status,
-        statusText: response.statusText,
-        data,
-      })
-    }
 
     if (!response.ok) {
       if (response.status === 429) {
@@ -74,10 +64,6 @@ export async function subscribe(email: string): Promise<SubscribeResult> {
 
     return { success: true }
   } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("Unexpected Error:", error)
-    }
-
     return {
       success: false,
       error: error instanceof Error ? error.message : "Failed to subscribe.",
