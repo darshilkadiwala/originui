@@ -1,6 +1,6 @@
 import type { NextConfig } from "next"
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "/testing-repo"
+import { BASE_PATH } from "./config/env"
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -8,9 +8,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Dynamically set from NEXT_PUBLIC_BASE_PATH env var (defaults to "/testing-repo")
-  basePath,
-  assetPrefix: basePath,
+  // Dynamically set from NEXT_PUBLIC_BASE_PATH env var
+  basePath: BASE_PATH,
+  assetPrefix: BASE_PATH,
 }
 
 export default nextConfig

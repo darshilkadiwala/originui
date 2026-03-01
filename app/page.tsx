@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { categories } from "@/config/components"
+import { BASE_PATH } from "@/config/env"
 import SearchButton from "@/components/search-button"
 import { SubscribeBottom } from "@/components/subscribe-form"
 
@@ -58,7 +59,7 @@ function CategoryCard({
   isNew = false,
 }: CategoryCardProps) {
   const href = `/${slug}`
-  const imageBasePath = `/thumbs/${slug}`
+  const imageBasePath = `${BASE_PATH}/thumbs/${slug}`
   const alt = `${name} components`
   const isComingSoon = componentsCount === undefined
 

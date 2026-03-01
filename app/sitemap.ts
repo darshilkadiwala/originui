@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next"
 
 import { categories } from "@/config/components"
+import { SITE_URL } from "@/config/env"
 
 export const dynamic = "force-static"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://originui.com"
+  const baseUrl = SITE_URL
 
   const home = {
     url: baseUrl,

@@ -4,6 +4,7 @@ import { JSX, useEffect, useState } from "react"
 import { CodeIcon } from "lucide-react"
 import type { RegistryItem } from "shadcn/registry"
 
+import { BASE_PATH } from "@/config/env"
 import { convertRegistryPaths } from "@/lib/utils"
 import ComponentCli from "@/components/cli-commands"
 import CodeBlock, { highlight } from "@/components/code-block"
@@ -44,7 +45,7 @@ export default function ComponentDetails({
 
     const loadCode = async () => {
       try {
-        const response = await fetch(`/r/${component.name}.json`)
+        const response = await fetch(`${BASE_PATH}/r/${component.name}.json`)
         if (!response.ok) {
           handleEmptyCode()
           return

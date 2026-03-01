@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { EMAIL_OCTOPUS_API_KEY, EMAIL_OCTOPUS_LIST_ID } from "@/config/env"
+
 type EmailOctopusError = {
   code?: string
   detail?: string
@@ -13,8 +15,8 @@ const subscribeSchema = z.object({
 type SubscribeResult = { success: true } | { success: false; error: string }
 
 export async function subscribe(email: string): Promise<SubscribeResult> {
-  const apiKey = process.env.NEXT_PUBLIC_EMAIL_OCTOPUS_API_KEY
-  const listId = process.env.NEXT_PUBLIC_EMAIL_OCTOPUS_LIST_ID
+  const apiKey = EMAIL_OCTOPUS_API_KEY
+  const listId = EMAIL_OCTOPUS_LIST_ID
 
   if (!apiKey || !listId) {
     throw new Error("Missing required environment variables")
